@@ -2,14 +2,38 @@ const express = require('express')
 const app = express()
 const port = 4000
 
+const bodyParser = require('body-parser');
+const { User } = require("./models/User");
+
+//application/x-www-form-rulencoded
+app.use(bodyParser.urlencoded({extended: true}));
+//application/json
+app.use(bodyParser.json());
+
+const config = require('./config/key');
+
+//mongoDB connection
 const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://silverwest:909699@boilerplate.2sfuf.mongodb.net/<dbname>?retryWrites=true&w=majority', {
+mongoose.connect(config.mongoURI, {
   useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
+
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World! Hi world!')
+})
+
+app.post('/register', (req, res) => {
+  //회원가입시 필요한 정보를 client에서 가져오면 db에 넣어줌
+  const user = new User(req.body)
+  user.save((err, doc) => {
+    if(err) return res.json({success: false, err})
+    return res.status(200).json({
+      success: true
+    })
+  })
+
 })
 
 app.listen(port, () => {
