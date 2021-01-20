@@ -12,6 +12,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 //application/json
 app.use(bodyParser.json());
 
+//cookie=parser 설정
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
 const config = require('./config/key');
 //mongoDB connection, 헤로크??
 const mongoose = require('mongoose');
@@ -50,16 +54,18 @@ app.post('/login', (req, res) => {
         if(!isMatch) {
           return res.json({ loginSuccess: false, message: "비밀번호가 틀렸습니다."})
         }
-        else {
+        else { //3. 다 맞으면 토큰 생성
           user.generateToken((err, user) => {
             if (err) return res.status(400).send(err);
+            //token을 저장 - where? cookie, local starage, session ... 어디가 제일 안전한가? 여기서는 일단 cookie, 각기장단점
+            res.cookie('x_auth', user.token)
+            .status(200)
+            .json({loginSuccess: true, userID: user._id })
           })
         }
       })
     }
-    
   })
-  //3. 다 맞으면 토큰 생성
 })
 
 app.listen(port, () => {
