@@ -12,10 +12,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 //application/json
 app.use(bodyParser.json());
 
-//cookie=parser 설정
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
 const config = require('./config/key');
 //mongoDB connection, 헤로크??
 const mongoose = require('mongoose');
@@ -29,7 +25,8 @@ app.get('/', (req, res) => {
   res.send('Hello World! Hi world! oh...')
 })
 
-app.post('/register', (req, res) => {
+//Router -> user, product, comment... 정리
+app.post('/api/user/register', (req, res) => {
   //회원가입시 필요한 정보를 client에서 가져오면 db에 넣어줌
   const user = new User(req.body) // user instance 생성, req.body 안에는  json 형식으로 id, password가 들어있음 (body parser로 한거임)
   //save 전에 암호화 해야함, user model에서 pre!
@@ -40,7 +37,11 @@ app.post('/register', (req, res) => {
 
 })
 
-app.post('/login', (req, res) => {
+//cookie-parser 설정
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+app.post('/api/user/login', (req, res) => {
   //1. 요청된 이메일을 데이터베이스에서 찾기
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
@@ -67,6 +68,21 @@ app.post('/login', (req, res) => {
     }
   })
 })
+
+const auth = require('./middleware/auth');
+//auth -> 미들웨어
+app.get('/api/user/auth', auth, (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    role: req.user.role,
+    image: req.user.image
+  })
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
