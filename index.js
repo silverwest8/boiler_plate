@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const port = 4000;
-const auth = require('./middleware/auth');
 
 //user가져오기
 const { User } = require("./models/User");
@@ -23,7 +22,7 @@ mongoose.connect(config.mongoURI, {
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World! Hi world! oh...')
+  res.send('Hello World!!! logout complete')
 })
 
 //Router -> user, product, comment... 정리
@@ -70,7 +69,7 @@ app.post('/api/user/login', (req, res) => {
   })
 })
 
-
+const {auth} = require('./middleware/auth');
 //auth -> 미들웨어
 app.get('/api/user/auth', auth, (req, res) => {
   res.status(200).json({
@@ -84,11 +83,13 @@ app.get('/api/user/auth', auth, (req, res) => {
   })
 })
 
-app.get('./api/user/logout', auth, (req, res) => {
-  User.findOneAndUpdate({ _id: req.user._id}), {token: "" }, (err, user) => {
-    if(err) return res.json({ success: false, err });
-    return res.status(200).send({ success: true });
-  }
+app.get('/api/user/logout', auth, (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+    if(err) {
+      return res.json({ logoutSuccess: false, err });
+    }
+    return res.status(200).send({ logoutSuccess: true });
+  })
 })
 
 app.listen(port, () => {
