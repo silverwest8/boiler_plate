@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
-const port = 4000;
+const port = 5000;
 
 //user가져오기
-const { User } = require("./server/models/User");
+const { User } = require("./models/User");
 
 //body-parser 설정
 const bodyParser = require('body-parser');
@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //application/json
 app.use(bodyParser.json());
 
-const config = require('./server/config/key');
+const config = require('./config/key');
 //mongoDB connection, 헤로크??
 const mongoose = require('mongoose');
 mongoose.connect(config.mongoURI, {
@@ -22,7 +22,11 @@ mongoose.connect(config.mongoURI, {
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!!! logout complete')
+  res.send('Hello World!!')
+})
+
+app.get('api/hello', (req, res) => {
+  res.send("안녕하세요~");
 })
 
 //Router -> user, product, comment... 정리
@@ -69,7 +73,7 @@ app.post('/api/user/login', (req, res) => {
   })
 })
 
-const {auth} = require('./server/middleware/auth');
+const {auth} = require('./middleware/auth');
 //auth -> 미들웨어
 app.get('/api/user/auth', auth, (req, res) => {
   res.status(200).json({
