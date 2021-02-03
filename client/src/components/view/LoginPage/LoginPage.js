@@ -37,9 +37,6 @@ function LoginPage(props) {
                 alert("Error");
             }
         })
-
-
-
     }
 
     return (
@@ -50,16 +47,15 @@ function LoginPage(props) {
             <form
                 style = {{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}
                 onSubmit = {onSubmitHandler} >
+
                 <label>Email</label>
                 <input type='email' value={Email} onChange={onEmailHandler}/>
+
                 <label>Password</label>
                 <input type='password' value={Password} onChange={onPasswordHandler}/>
+
                 <button type='submit'> Login </button>
             </form>
-
-
-
-
 
         </div>
     )

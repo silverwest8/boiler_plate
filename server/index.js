@@ -35,10 +35,9 @@ app.post('/api/user/register', (req, res) => {
   const user = new User(req.body) // user instance 생성, req.body 안에는  json 형식으로 id, password가 들어있음 (body parser로 한거임)
   //save 전에 암호화 해야함, user model에서 pre!
   user.save((err, userInfo) => { // save --> 몽고DB 메소드
-    if(err) return res.json({success: false, err})
-    return res.status(200).json({success: true})
+    if(err) return res.json({registerSuccess: false, err})
+    return res.status(200).json({registerSuccess: true})
   })
-
 })
 
 //cookie-parser 설정
