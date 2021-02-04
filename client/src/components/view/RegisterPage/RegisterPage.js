@@ -1,7 +1,7 @@
-import Axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { registerUser } from '../../../_actions/user_action'
+import { withRouter } from 'react-router-dom';
 
 function RegisterPage(props) {
 
@@ -30,7 +30,7 @@ function RegisterPage(props) {
     const onSubmitHandler = (event) => {
         event.preventDefault(); //리프레시 방지
 
-        if (Password != ConfirmPassword) {
+        if (Password !== ConfirmPassword) {
             return alert('비밀번호와 비밀번호 확인은 같아야 합니다.');
         } 
         let body = {
@@ -85,4 +85,5 @@ function RegisterPage(props) {
     )
 }
 
-export default RegisterPage
+// export default RegisterPage
+export default withRouter(RegisterPage)

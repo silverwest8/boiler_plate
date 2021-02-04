@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 5000;
+const {auth} = require('./middleware/auth');
 
 //user가져오기
 const { User } = require("./models/User");
@@ -72,7 +73,16 @@ app.post('/api/user/login', (req, res) => {
   })
 })
 
-const {auth} = require('./middleware/auth');
+app.get('/api/user/logout', auth, (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+    if(err) {
+      return res.json({ logoutSuccess: false, err });
+    }
+    return res.status(200).send({ logoutSuccess: true });
+  })
+})
+
+
 //auth -> 미들웨어
 app.get('/api/user/auth', auth, (req, res) => {
   res.status(200).json({
@@ -83,15 +93,6 @@ app.get('/api/user/auth', auth, (req, res) => {
     name: req.user.name,
     role: req.user.role,
     image: req.user.image
-  })
-})
-
-app.get('/api/user/logout', auth, (req, res) => {
-  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
-    if(err) {
-      return res.json({ logoutSuccess: false, err });
-    }
-    return res.status(200).send({ logoutSuccess: true });
   })
 })
 
