@@ -30,14 +30,11 @@ function App() {
           of them to render at a time
         */}
         <Switch>
-          <Route exact path="/" component={Auth(LandingPage, null)}>
+          <Route exact path="/" component={Auth(LandingPage, null)} />
             {/* <LandingPage/> */}
             {/* 컴포넌트를 Auth(HOC)가 감싸줌 */}
-          </Route>
-          <Route exact path="/LoginPage" component={Auth(LoginPage, false)}>
-          </Route>
-          <Route exact path="/RegisterPage" component={Auth(RegisterPage, false)}>
-          </Route>
+          <Route exact path="/LoginPage" component={Auth(LoginPage, false)} />
+          <Route exact path="/RegisterPage" component={Auth(RegisterPage, false)} />
         </Switch>
       </div>
     </Router>
