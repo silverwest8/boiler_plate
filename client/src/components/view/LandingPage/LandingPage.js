@@ -1,16 +1,28 @@
 import React, {useEffect} from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 
-function LandingPage() {
+function LandingPage(props) {
     useEffect(() => {
-        axios.get('/api/hello')
+        Axios.get('/api/hello')
         .then(response => console.log(response.data))
     }, [])
 
+    const onLogoutHandler = () => {
+        Axios.get('/api/user/logout')
+            .then(response => {
+                if (response.data.logoutSuccess) {
+                    props.history.push('/loginPage')
+                } else {
+                    alert("Failed to logout")
+                }
+                // console.log(response.data)
+            })
+    }
 
     return (
-        <div style = {{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh'}}>
+        <div style = {{display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh'}}>
             <h2>시작페이지</h2>
+            <button onClick={onLogoutHandler}>로그아웃</button>
         </div>
     )
 }
