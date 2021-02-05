@@ -21,7 +21,6 @@ mongoose.connect(config.mongoURI, {
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
-
 app.get('/', (req, res) => {
   res.send('Hello World!!')
 })
@@ -81,7 +80,6 @@ app.get('/api/user/logout', auth, (req, res) => {
     return res.status(200).send({ logoutSuccess: true });
   })
 })
-
 
 //auth -> 미들웨어
 app.get('/api/user/auth', auth, (req, res) => {
