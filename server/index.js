@@ -94,6 +94,17 @@ app.get('/api/user/auth', auth, (req, res) => {
   })
 })
 
+//Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+  //set static folder
+  //All the javascript and css files will be read and served from this folder
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+  });
+}
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
