@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '../_actions/user_action';
 
-export default function (SpecificComponent, option, adminRoute = null) {
+function Auth (SpecificComponent, option, adminRoute = null) {
 /*
     export default function (Specification, option, adminRout = null) 
     에서 option => null(아무나 출입 가능), true(로그인유저만 출입 가능), false(로그인한 유저는 출입 불가)
@@ -33,7 +33,8 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
                     }
                 })
-        }, [])
+        })
+        // }, [])
 
         //페이지 이동시마다 dispatch 작동해서 백엔드에 request를 주고 response 받음
         return <SpecificComponent/>;
@@ -42,3 +43,5 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
     return AthenticationCheck;
 }
+
+export default Auth;

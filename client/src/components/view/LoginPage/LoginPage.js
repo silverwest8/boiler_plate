@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
+import { withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 //dispatch를 이용해 액션을 짜고 -> 리듀서
 import { loginUser } from '../../../_actions/user_action'
-import { withRouter } from 'react-router-dom';
 
 function LoginPage(props) {
 

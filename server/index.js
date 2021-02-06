@@ -21,12 +21,12 @@ mongoose.connect(config.mongoURI, {
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
-app.get('/', (req, res) => {
-  res.send('Hello World!!')
-})
+// app.get('/', (req, res) => {
+//   res.send('')
+// })
 
 app.get('/api/hello', (req, res) => {
-  res.send("안녕하세요~");
+  res.send("Hello World!!");
 })
 
 //Router -> user, product, comment... 정리
